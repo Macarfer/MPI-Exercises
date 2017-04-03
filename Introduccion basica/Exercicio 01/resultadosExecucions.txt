@@ -1,0 +1,34 @@
+# 2 Proccessors
+I, processor 0 out of 2 processors have sended a message!
+I, processor 1 out of 2 processors have received the following message: "-I'm a message!-"
+# 4 Processors
+I, processor 0 out of 4 processors have sended a message!
+I, processor 3 out of 4 processors have received the following message: "-I'm a message!-"
+I, processor 1 out of 4 processors have received the following message: "-I'm a message!-"
+I, processor 2 out of 4 processors have received the following message: "-I'm a message!-"
+# 8 Processors
+I, processor 5 out of 8 processors have received the following message: "-I'm a message!-"
+I, processor 6 out of 8 processors have received the following message: "-I'm a message!-"
+I, processor 7 out of 8 processors have received the following message: "-I'm a message!-"
+I, processor 0 out of 8 processors have sended a message!
+I, processor 2 out of 8 processors have received the following message: "-I'm a message!-"
+I, processor 4 out of 8 processors have received the following message: "-I'm a message!-"
+I, processor 1 out of 8 processors have received the following message: "-I'm a message!-"
+I, processor 3 out of 8 processors have received the following message: "-I'm a message!-"
+# 16 Processors
+I, processor 5 out of 16 processors have received the following message: "-I'm a message!-"
+I, processor 0 out of 16 processors have sended a message!
+I, processor 6 out of 16 processors have received the following message: "-I'm a message!-"
+I, processor 1 out of 16 processors have received the following message: "-I'm a message!-"
+I, processor 2 out of 16 processors have received the following message: "-I'm a message!-"
+I, processor 3 out of 16 processors have received the following message: "-I'm a message!-"
+I, processor 4 out of 16 processors have received the following message: "-I'm a message!-"
+I, processor 7 out of 16 processors have received the following message: "-I'm a message!-"
+I, processor 8 out of 16 processors have received the following message: "-I'm a message!-"
+I, processor 10 out of 16 processors have received the following message: "-I'm a message!-"
+I, processor 13 out of 16 processors have received the following message: "-I'm a message!-"
+I, processor 14 out of 16 processors have received the following message: "-I'm a message!-"
+I, processor 15 out of 16 processors have received the following message: "-I'm a message!-"
+I, processor 12 out of 16 processors have received the following message: "-I'm a message!-"
+I, processor 11 out of 16 processors have received the following message: "-I'm a message!-"
+I, processor 9 out of 16 processors have received the following message: "-I'm a message!-"
