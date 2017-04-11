@@ -69,40 +69,28 @@ void calculateProduct(int argc, char *argv[]){
 
 
 
-  double *localMatrix = (double *)malloc(entrySetSize*entrySetSize*sizeof(double)/world_size + MPI_BSEND_OVERHEAD);
-  double *localVector = (double *)malloc(entrySetSize*sizeof(double)+ MPI_BSEND_OVERHEAD);
-  double *localSolution = (double*)malloc(entrySetSize*sizeof(double)/world_size+ MPI_BSEND_OVERHEAD);
+  double *localMatrix = (double *)malloc(entrySetSize*entrySetSize*sizeof(double)/world_size);
+  double *localSolution = (double*)malloc(entrySetSize*sizeof(double)/world_size);
   int dimension = entrySetSize/world_size;
 
   startTime=MPI_Wtime();
-  if(!world_rank){
-    MPI_Request * send_request;
-    for(i=1;i<world_size;i++){
-      MPI_Isend(matrixA+entrySetSize*i*dimension,entrySetSize*dimension,MPI_DOUBLE,i,MATRIX_TAG,MPI_COMM_WORLD,send_request);
-    }
-    localMatrix=matrixA;
-    localVector=vectorB;
-  }else{
-      MPI_Status recv_status;
-      MPI_Recv(localMatrix,entrySetSize*dimension,MPI_DOUBLE,ROOT_PROCESS,MATRIX_TAG,MPI_COMM_WORLD,&recv_status);
-  }
-MPI_Bcast(localVector,entrySetSize,MPI_DOUBLE,ROOT_PROCESS,MPI_COMM_WORLD);
+  MPI_Scatter(matrixA,entrySetSize*dimension,MPI_DOUBLE,localMatrix,entrySetSize*dimension,MPI_DOUBLE,ROOT_PROCESS,MPI_COMM_WORLD);
+  MPI_Bcast(vectorB,entrySetSize,MPI_DOUBLE,ROOT_PROCESS,MPI_COMM_WORLD);
 
   for(i=world_rank*dimension;i<(world_rank+1)*dimension;i++){
-      for(j=0;j<entrySetSize;j++){
-        *(localSolution+i%dimension)+=*(localMatrix+(i%dimension)*entrySetSize+j)**(localVector+j);
+      for(j=0;j<entrySetSize;j+=4){
+        *(localSolution+i%dimension)+=*(localMatrix+(i%dimension)*entrySetSize+j)**(vectorB+j);
+          *(localSolution+i%dimension)+=*(localMatrix+(i%dimension)*entrySetSize+j+1)**(vectorB+j+1);
+            *(localSolution+i%dimension)+=*(localMatrix+(i%dimension)*entrySetSize+j+2)**(vectorB+j+2);
+              *(localSolution+i%dimension)+=*(localMatrix+(i%dimension)*entrySetSize+j+3)**(vectorB+j+3);
         }
       }
-  if(!world_rank){
-    MPI_Gather(localSolution,dimension,MPI_DOUBLE,solution,dimension,MPI_DOUBLE,ROOT_PROCESS,MPI_COMM_WORLD);
-  }else{
-    MPI_Gather(localSolution,dimension,MPI_DOUBLE,solution,dimension,MPI_DOUBLE,ROOT_PROCESS,MPI_COMM_WORLD);
-    }
+  MPI_Gather(localSolution,dimension,MPI_DOUBLE,solution,dimension,MPI_DOUBLE,ROOT_PROCESS,MPI_COMM_WORLD);
+
   endTime=MPI_Wtime();
   MPI_Finalize();
   if(!world_rank){
     fprintf(stderr,"%9le\n",solution[2047]);
     fprintf(stdout,"%lf\n",endTime-startTime);
 }
-// return endTime-startTime;
 }
